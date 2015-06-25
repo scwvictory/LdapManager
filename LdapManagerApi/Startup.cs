@@ -4,10 +4,12 @@ using System.Linq;
 using System.Web;
 
 using System.Web.Http;
+using System.Data.Entity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using LdapManagerApi.Providers;
+using LdapManagerApi.Models;
 
 [assembly: OwinStartup(typeof(LdapManagerApi.Startup))]
 namespace LdapManagerApi
@@ -24,6 +26,7 @@ namespace LdapManagerApi
             WebApiConfig.Register(config);
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
+
         }
 
         public void ConfigureOAuth(IAppBuilder app)

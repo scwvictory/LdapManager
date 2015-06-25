@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Routing;
 
 using System.Data.Entity;
+using LdapManagerApi.Migrations;
 using LdapManagerApi.Models;
 
 namespace LdapManagerApi
@@ -15,6 +16,10 @@ namespace LdapManagerApi
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+
+            //マイグレーション
+            Database.SetInitializer<LdapManagerDbContext>(
+                new LdapManagerDbInitializer());
         }
     }
 }

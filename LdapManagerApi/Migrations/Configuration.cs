@@ -17,14 +17,6 @@ namespace LdapManagerApi.Migrations
 
         protected override void Seed(LdapManagerApi.Models.LdapManagerDbContext context)
         {
-            var roles = new List<LdapUserRole> {
-                new LdapUserRole
-                {
-                    Name = "Administrator",
-                },
-            };
-            context.LdapUserRoles.AddRange(roles);
-            context.SaveChanges();
         }
     }
 }

@@ -138,7 +138,6 @@
     <Compile Include="Attributes\DirectorySchemaExAttribute.cs" />
     <Compile Include="Controllers\LdapOuController.cs" />
     <Compile Include="Controllers\LdapUserController.cs" />
-    <Compile Include="Controllers\LdapUserRoleController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -149,13 +148,14 @@
       <DependentUpon>201505120607320_AddRoleTable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\LdapManagerDbInitializer.cs" />
     <Compile Include="ModelMappers\LdapOuMapper.cs" />
     <Compile Include="Models\LdapOu.cs" />
     <Compile Include="Models\LdapUserPassword.cs" />
     <Compile Include="ModelMappers\LdapUserPasswordMapper.cs" />
     <Compile Include="Models\LdapUserRole.cs" />
     <Compile Include="Models\LdapUserRoleMember.cs" />
-    <Compile Include="Models\RMUserDbContext.cs" />
+    <Compile Include="Models\LdapManagerDbContext.cs" />
     <Compile Include="Providers\LdapAuthorizationServerProvider.cs" />
     <Compile Include="Ldap\LdapContext.cs" />
     <Compile Include="Models\LdapUser.cs" />
@@ -166,6 +166,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utilities\LdapConfig.cs" />
     <Compile Include="Utilities\SSHASaltedGenerator.cs" />
+    <Compile Include="ViewModels\LdapUserModels.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
