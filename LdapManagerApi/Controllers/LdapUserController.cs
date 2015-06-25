@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using LdapManagerApi.Attributes;
 using LdapManagerApi.Ldap;
 using LdapManagerApi.Models;
+using LdapManagerApi.ViewModels.LdapUser;
 using LdapManagerApi.Utilities;
 
 namespace LdapManagerApi.Controllers
@@ -40,7 +41,7 @@ namespace LdapManagerApi.Controllers
             }
         }
 
-        [AuthorizeEx(Roles = "Administrator")]
+        [AuthorizeEx(Roles = "Administrators")]
         [HttpPost]
         [ActionName("SearchUsers")]
         public async Task<HttpResponseMessage> SearchUsers([FromBody]LdapUserStore.SearchAsyncModel model)
@@ -63,7 +64,7 @@ namespace LdapManagerApi.Controllers
         /// </summary>
         /// <param name="uid">ユーザーID(uid)</param>
         /// <returns></returns>
-        [AuthorizeEx(Roles = "Administrator")]
+        [AuthorizeEx(Roles = "Administrators")]
         [HttpPost]
         [ActionName("GetUser")]
         public async Task<HttpResponseMessage> GetUser([FromBody]LdapUser ldapUser)
@@ -81,7 +82,7 @@ namespace LdapManagerApi.Controllers
             }
         }
 
-        [AuthorizeEx(Roles = "Administrator")]
+        [AuthorizeEx(Roles = "Administrators")]
         [HttpPost]
         [ActionName("CreateUser")]
         public async Task<HttpResponseMessage> CreateUser([FromBody]LdapUser ldapUser)
@@ -99,7 +100,7 @@ namespace LdapManagerApi.Controllers
             }
         }
 
-        [AuthorizeEx(Roles = "Administrator")]
+        [AuthorizeEx(Roles = "Administrators")]
         [HttpPost]
         [ActionName("UpdateUser")]
         public async Task<HttpResponseMessage> UpdateUser([FromBody]LdapUser ldapUser)
@@ -117,7 +118,7 @@ namespace LdapManagerApi.Controllers
             }
         }
 
-        [AuthorizeEx(Roles = "Administrator")]
+        [AuthorizeEx(Roles = "Administrators")]
         [HttpPost]
         [ActionName("DeleteUser")]
         public async Task<HttpResponseMessage> DeleteUser([FromBody]LdapUser ldapUser)
@@ -135,7 +136,7 @@ namespace LdapManagerApi.Controllers
             }
         }
 
-        [AuthorizeEx(Roles = "Administrator")]
+        [AuthorizeEx(Roles = "Administrators")]
         [HttpPost]
         [ActionName("SetPassword")]
         public async Task<HttpResponseMessage> SetPassword([FromBody]SetPasswordModel model)
@@ -158,18 +159,6 @@ namespace LdapManagerApi.Controllers
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, e);
             }
-        }
-
-        public class SetPasswordModel
-        {
-            /// <summary>
-            /// ユーザーID(uid)
-            /// </summary>
-            public string Id { get; set; }
-            /// <summary>
-            /// パスワード(プレーンテキスト)
-            /// </summary>
-            public string Password { get; set; }
         }
 
         [HttpPost]
@@ -200,20 +189,40 @@ namespace LdapManagerApi.Controllers
             }
         }
 
-        public class ChangePasswordModel
+        [AuthorizeEx(Roles = "Administrators")]
+        [HttpPost]
+        [ActionName("GetRoles")]
+        public async Task<HttpResponseMessage> GetRoles([FromBody]LdapUser ldapUser)
         {
-            /// <summary>
-            /// ユーザーID(uid)
-            /// </summary>
-            public string Id { get; set; }
-            /// <summary>
-            /// 旧パスワード
-            /// </summary>
-            public string OldPassword { get; set; }
-            /// <summary>
-            /// 新パスワード
-            /// </summary>
-            public string NewPassword { get; set; }
+            var results = await new LdapUserStore().GetRolesAsync(ldapUser);
+            return Request.CreateResponse(HttpStatusCode.OK, results);
+        }
+
+        [AuthorizeEx(Roles = "Administrators")]
+        [HttpPost]
+        [ActionName("IsInRole")]
+        public async Task<HttpResponseMessage> IsInRole([FromBody]IsInRoleModel model)
+        {
+            var result = await new LdapUserStore().IsInRoleAsync(model.user, model.role);
+            return Request.CreateResponse(HttpStatusCode.OK, result);
+        }
+
+        [AuthorizeEx(Roles = "Administrators")]
+        [HttpPost]
+        [ActionName("AddToRole")]
+        public async Task<HttpResponseMessage> AddToRole([FromBody]AddToRoleModel model)
+        {
+            await new LdapUserStore().AddToRoleAsync(model.user, model.role);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [AuthorizeEx(Roles = "Administrators")]
+        [HttpPost]
+        [ActionName("RemoveFromRole")]
+        public async Task<HttpResponseMessage> RemoveFromRole([FromBody]RemoveFromRoleModel model)
+        {
+            await new LdapUserStore().RemoveFromRoleAsync(model.user, model.role);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }
