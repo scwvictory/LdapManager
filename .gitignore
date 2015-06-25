@@ -1,0 +1,5 @@
+packages/
+LdapManager/obj/
+LdapManager/bin/
+LdapManagerApi/obj/
+LdapManagerApi/bin/
